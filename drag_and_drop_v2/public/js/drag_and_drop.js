@@ -1462,7 +1462,7 @@ function DragAndDropBlock(runtime, element, configuration) {
 
         var onDragStart = function(interaction_type, $item, drag_origin) {
 
-            $('.item-wrapper').addClass('drop-zones-outline');
+            $('.zone').addClass('drop-zones-outline');
 
             var item_id = $item.data('value');
             var item = getItemById(item_id);
@@ -1577,7 +1577,7 @@ function DragAndDropBlock(runtime, element, configuration) {
             };
 
             var onDragEnd = function(evt) {
-                $('.item-wrapper').removeClass('drop-zones-outline');
+                $('.zone').removeClass('drop-zones-outline');
 
                 if (raf_id) {
                     cancelAnimationFrame(raf_id);
