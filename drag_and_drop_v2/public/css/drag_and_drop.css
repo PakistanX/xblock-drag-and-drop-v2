@@ -108,7 +108,7 @@
     border-radius: 3px;
     box-sizing: border-box;
     margin: 5px;
-    padding: 10px 25px 10px 10px;
+    padding: 10px 35px 10px 10px;
     text-align: left;
     background-color: #E2E2E2;
     font-size: 14px;
@@ -255,7 +255,7 @@
 }
 
 .xblock--drag-and-drop .drag-container .option.fade {
-    opacity: 0.80;
+    opacity: 1;
 }
 
 /*** DROP TARGET ***/
