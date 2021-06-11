@@ -103,7 +103,7 @@
 
 .xblock--drag-and-drop .drag-container .option {
     display: block;
-    width: 177px;
+    width: 100%;
     min-width: 4em;
     border: 1px solid transparent;
     border-radius: 3px;
@@ -204,6 +204,7 @@
 .xblock--drag-and-drop .zone .item-wrapper {
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 .xblock--drag-and-drop .zone .item-align .option {
     transform: none;
@@ -225,6 +226,12 @@
     display: inline-block;
     margin-left: 1px;
     margin-right: 1px;
+}
+.xblock--drag-and-drop .zone .item-align-center .option.option-with-image {
+    padding: 0;
+    margin: 0;
+    width: 100% !important;
+    border: none;
 }
 
 /* Focused option */
@@ -305,6 +312,7 @@
 
 .xblock--drag-and-drop .zone {
     position: absolute;
+    box-sizing: border-box;
 
     display: -webkit-box;
     display: -moz-box;
@@ -329,7 +337,9 @@
     box-align:center;
     border: 3px dashed transparent;
 }
-
+.xblock--drag-and-drop .zone * {
+    box-sizing: border-box !important;
+}
 .xblock--drag-and-drop .zone:hover, .xblock--drag-and-drop .zone.drop-zones-outline {
     border-color: #8BC5CB;
 }
@@ -914,4 +924,8 @@
         outline: none;
         box-shadow: none;
     }
+}
+
+.dragged-items .option {
+    width: 22% !important;
 }
