@@ -899,7 +899,7 @@ function DragAndDropBlock(runtime, element, configuration) {
         containerMaxWidth = null;
         // Render with container hidden to be able to measure max available width.
         applyState();
-        // Mesure available width.
+        // Measure available width.
         containerMaxWidth = $root.width();
         // Re-render now that correct max-width is known.
         applyState();
@@ -981,7 +981,7 @@ function DragAndDropBlock(runtime, element, configuration) {
     // The feedback popup is shown very quickly after the user drops the item on the board.
     // If the user uses the keyboard to drop the item, and the popup gets displayed and focused
     // *before* the user releases the key, most browsers will emit an emulated click event on the
-    // close popup button. We prevent these from happenning by only letting the browser emulate
+    // close popup button. We prevent these from happening by only letting the browser emulate
     // a click event on keyup if the close button received a keydown event prior to the keyup.
     var _popup_close_button_keydown_received = false;
 
