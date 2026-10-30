@@ -768,6 +768,18 @@ function DragAndDropBlock(runtime, element, configuration) {
     DragAndDropBlock.ASSESSMENT_MODE = 'assessment';
     DragAndDropBlock.FEEDBACK_CLASS_ZONE_LIMIT = 'limit';
 
+    // ilmX: optional feedback sounds, configured via
+    // XBLOCK_SETTINGS['drag-and-drop-v2']['ILMX_SUCCESS_SOUND_URL' / 'ILMX_FAILURE_SOUND_URL'].
+    var makeAudio = function(url) {
+        if (!url || typeof Audio === 'undefined') {
+            return null;
+        }
+        return new Audio(url);
+    };
+    var ilmx_sounds = configuration.ilmx_sounds || {};
+    var failure_audio = makeAudio(ilmx_sounds.failure_url);
+    var success_audio = makeAudio(ilmx_sounds.success_url);
+
     var Selector = {
         popup_box: '.popup',
         close_button: '.popup .close-feedback-popup-button'
@@ -1535,6 +1547,9 @@ function DragAndDropBlock(runtime, element, configuration) {
         };
 
         var onDragStart = function(interaction_type, $item, drag_origin) {
+            // ilmX: outline every drop zone while an item is being dragged.
+            $('.zone', $element).addClass('drop-zones-outline');
+
             var item_id = $item.data('value');
             var item = getItemById(item_id);
             var $document = $(document);
@@ -1662,6 +1677,8 @@ function DragAndDropBlock(runtime, element, configuration) {
             };
 
             var onDragEnd = function(evt) {
+                $('.zone', $element).removeClass('drop-zones-outline');
+
                 if (raf_id) {
                     cancelAnimationFrame(raf_id);
                 }
@@ -1789,6 +1806,23 @@ function DragAndDropBlock(runtime, element, configuration) {
         applyState();
     };
 
+    // ilmX: play a feedback sound (restarting it if it is already playing).
+    var playSound = function(audio) {
+        if (!audio) {
+            return;
+        }
+        try {
+            audio.pause();
+            audio.currentTime = 0;
+            var playback = audio.play();
+            if (playback && typeof playback.catch === 'function') {
+                playback.catch(function() { /* autoplay blocked: ignore */ });
+            }
+        } catch (e) {
+            // Sound is best-effort only.
+        }
+    };
+
     var submitLocation = function(item_id, zone) {
         if (!zone) {
             return;
@@ -1810,6 +1844,9 @@ function DragAndDropBlock(runtime, element, configuration) {
                     state.grade = data.grade;
                     if (!data.correct) {
                         delete state.items[item_id];
+                        playSound(failure_audio);
+                    } else {
+                        playSound(success_audio);
                     }
                     if (data.finished) {
                         state.finished = true;
