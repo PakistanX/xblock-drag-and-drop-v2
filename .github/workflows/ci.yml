@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - "ilmx/**"
   pull_request:
     branches:
       - '**'

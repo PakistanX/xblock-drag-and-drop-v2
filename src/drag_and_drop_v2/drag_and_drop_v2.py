@@ -355,9 +355,24 @@ class DragAndDropBlock(
 
         self.include_theme_files(fragment)
 
-        fragment.initialize_js('DragAndDropBlock', self.student_view_data())
+        js_config = self.student_view_data()
+        js_config['ilmx_sounds'] = self.ilmx_sound_urls()
+        fragment.initialize_js('DragAndDropBlock', js_config)
 
         return fragment
+
+    def ilmx_sound_urls(self):
+        """
+        ilmX: URLs of the optional success/failure sounds played when a learner drops an item.
+
+        Configured with XBLOCK_SETTINGS['drag-and-drop-v2'] keys
+        ``ILMX_SUCCESS_SOUND_URL`` and ``ILMX_FAILURE_SOUND_URL``; sounds are disabled when unset.
+        """
+        xblock_settings = self.get_xblock_settings(default={}) or {}
+        return {
+            'success_url': xblock_settings.get('ILMX_SUCCESS_SOUND_URL') or None,
+            'failure_url': xblock_settings.get('ILMX_FAILURE_SOUND_URL') or None,
+        }
 
     def student_view_data(self, context=None):
         """
